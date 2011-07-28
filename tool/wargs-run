@@ -1,0 +1,251 @@
+#!/usr/bin/env python
+# vim: sw=2:ts=2:expandtab
+
+import sys
+import getopt
+import os
+import subprocess
+import tempfile
+import struct
+
+
+use_gdb = False
+verbose = False
+
+
+class UsageError(Exception):
+  def __init__(self, msg):
+    self.msg = msg
+
+
+def show_usage():
+  print """
+Usage:
+  %s [OPTIONS]
+
+Options:
+  -g, --with-gdb
+      Run with gdb
+  -v, --verbose
+      Do not suppress wrapper logs
+  -h, --help
+      Show this help
+""" % os.path.basename(sys.argv[0])
+
+
+def filepath_transform(file):
+  data_root = None
+
+  f = open(os.path.expanduser("~/.wargs.conf"))
+  for line in f:
+    line = line.strip()
+    equal = line.find("=")
+    assert -1 != equal
+    if "root" == line[:equal].strip():
+      data_root = line[equal + 1:].strip()
+      assert '"' == data_root[0] and '"' == data_root[-2]
+      data_root = data_root[1:-2]
+
+      break
+
+  f.close()
+
+  assert data_root is not None, "cannot find root option in cofiguration"
+
+  return os.path.join(data_root, file.lower())
+
+
+def dollar_exists():
+  f = filepath_transform("$")
+  return os.path.exists(f)
+
+
+def read_dollar():
+  f = filepath_transform("$")
+  f = open(f)
+  dollar = f.readline()
+  f.close()
+
+  return dollar
+
+
+def remove_dollar():
+  f = filepath_transform("$")
+  if os.path.exists(f):
+    os.remove(f)
+
+
+def run_command(*command):
+  com = None
+
+  f = open(os.path.expanduser("~/.wargs.conf"))
+  for line in f:
+    line = line.strip()
+    equal = line.find("=")
+    assert -1 != equal
+    if line[:equal].strip() == command[0]:
+      line = line[equal + 1:].strip()
+      assert '"' == line[0] and '"' == line[-2]
+      com = line[1:-2]
+
+      break
+
+  f.close()
+
+  assert com is not None, "cannot find command %s in configuration" % command
+
+  args = None
+  global use_gdb
+  global verbose
+  if use_gdb:
+    gdb_command_file_path = tempfile.mktemp()
+    gdb_command_file = open(gdb_command_file_path, "wt")
+    gdb_command_file.write("run")
+    for i in range(len(command)):
+      if 0 < i:
+        gdb_command_file.write(" %s" % command[i])
+  
+    if False == verbose:
+      gdb_command_file.write(" > /dev/null")
+
+    gdb_command_file.write("\nbt\nquit")
+    gdb_command_file.close()
+
+    args = ["gdb", "-x", gdb_command_file_path, com]
+  else:
+    args = [com]
+    for i in range(len(command)):
+      if 0 < i:
+        args.append(command[i])
+
+    if False == verbose:
+      args.append(">")
+      args.append("/dev/null")
+
+  subprocess.call(args)
+
+
+def read_exit_status():
+  f = None
+
+  try:
+    f = open(filepath_transform("exit"), "rb")
+  except IOError:
+    return None
+  
+  exit_status = f.read(4)
+  assert 4 == len(exit_status)
+
+  f.close()
+
+  exit_status, = struct.unpack("i", exit_status)
+
+  return exit_status
+
+
+def main(argv=None):
+  if argv is None:
+    argv = sys.argv
+
+  try:
+    try:
+      opts, args = getopt.getopt(argv[1:], "gvh", ["with-gdb", "verbose", "help"])
+      for opt, val in opts:
+        if opt in ("-g", "--with-gdb"):
+          global use_gdb
+          use_gdb = True
+        elif opt in ("-v", "--verbose"):
+          global verbose
+          verbose = True
+        elif opt in ("-h", "--help"):
+          show_usage()
+          return 0
+        else:
+          print >> sys.stderr, "unrecognized option"
+          return 1
+    except getopt.error, msg:
+      raise UsageError(msg)
+  except UsageError, err:
+    print >> sys.stderr, err.msg
+    show_usage()
+    return 1
+
+  file_names_to_be_removed = ("ending", "menu", "gameover",
+                              "load1", "load2", "load3", "load4", "load5")
+  for f in file_names_to_be_removed:
+    f = os.path.join("cstldata", f)
+    f = filepath_transform(f)
+    if os.path.exists(f):
+      os.remove(f)
+
+  while True:
+    run_command("ttl")
+
+    if None == read_exit_status() or 10 == read_exit_status ():
+      break
+
+    if False == dollar_exists():
+      break
+
+    end = False
+
+    while True:
+      while True:
+        if dollar_exists():
+          remove_dollar()
+
+        run_command("combatii")
+
+        if None == read_exit_status()   \
+           or 255 == read_exit_status() \
+           or 10 == read_exit_status():
+          break
+
+      if None == read_exit_status () or 10 == read_exit_status():
+        end = True
+        break
+
+      if "EXIT" == read_dollar():
+        break
+
+      remove_dollar()
+
+      run_command("chp", "p")
+
+      if None == read_exit_status() or 10 == read_exit_status():
+        end = True
+        break
+
+      load_file_path = filepath_transform("LOAD")
+      if os.path.exists(load_file_path):
+        break
+
+      if "EXIT" == read_dollar():
+        break
+
+      dollar = read_dollar()
+      remove_dollar()
+
+      if dollar.endswith(".sce") or dollar.endswith(".SCE"):
+        run_command("combatii", dollar)
+
+        if None == read_exit_status() or 10 == read_exit_status:
+          end = True
+          break
+
+        if 255 == read_exit_status():
+          if "EXIT" == read_dollar():
+            break
+      else:
+        run_command("pack", "SM", dollar)
+
+        if None == read_exit_status() or 10 == read_exit_status():
+          end = True
+          break
+
+    if True == end:
+      break
+
+
+if "__main__" == __name__:
+  sys.exit(main())

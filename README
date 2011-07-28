@@ -1,0 +1,36 @@
+Introduction:
+
+WarGS is a port of the 1996 DOS game War of Genesis II by Softmax to modern
+operating systems. In particular, it runs on GNU/Linux, but it should also
+work on any system supported by the SDL library on the i386 architecture.
+
+As part of the port, only modernised executables which will
+run on contemporary systems are provided. The game data is not provided.
+To play the game, you will need to have the original data
+from the War of Genesis II CD.
+
+The port is not fully complete.
+
+I got inpiration for creating this project from Syndicate Wars Port
+<http://swars.vexillium.org/>.
+
+
+License:
+
+All source code except the code in src/list.c, src/list.h, src/ttl.S,
+src/chp.S, src/combatii.S and src/pack.S is licensed under
+the GNU General Public License version 3 or any later version.
+src/list.c and src/list.h are derived from Pintos project. 
+The four .S files are modified disassembled version of the original
+game's each .exe. The project is distributed without charge and
+in good faith that it will be useful to those who purchased the original game
+but cannot play it anymore because they do not have access to an old DOS
+system. However, if the original copyright holders complain, the code 
+they have the rights to will be taken down.
+
+
+Installation:
+
+./configure
+make
+make install

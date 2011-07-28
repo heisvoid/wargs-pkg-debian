@@ -1,0 +1,36 @@
+2011-07-27  heisvoid  <heisvoid@gmail.com>
+
+  * Release ver. 0.2
+  * Change music file prefix from 'music' to 'track'
+  * Change music encoding quality in setup script
+  * Change softmax.fli playback FPS from 14 to 13
+  * Add SDL_QUIT event handling routine
+  * Add 'center' option which forces window position center
+  * Forward video data copy functions in ttl, chp and pack
+  * Change instructions valgrind cannot handle
+  * Make logging function for wrappers
+  * Make script based launcher
+  * Forward the following functions
+    - dos_findfirst ()
+    - dos_findnext ()
+    - vsprintf ()
+    - printf ()
+    - fclose ()
+    - memmove ()
+    - memset ()
+    - memcpy ()
+    - strcat ()
+    - strlen ()
+    - rand ()
+    - putch ()
+    - strcmp ()
+    - puts ()
+    - abs ()
+    - strrchr ()
+    - exit ()
+  * Fix: uninitialized variable problem in chp
+  * Fix: memory leak in log.c
+
+2011-07-23  heisvoid  <heisvoid@gmail.com>
+
+  * initial release (ver. 0.1)

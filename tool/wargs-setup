@@ -1,0 +1,272 @@
+#!/bin/sh
+# vim: sw=2:ts=2:expandtab
+
+# References
+# http://tldp.org/LDP/abs/html/textproc.html
+# swars port 0.3 util/install script (http://swars.vexillium.org/)
+
+PROJECT_NAME="wargs"
+DEFAULT_TARGET_NAME="\$HOME/.${PROJECT_NAME}"
+DEFAULT_TARGET="${HOME}/.${PROJECT_NAME}"
+
+lowercase=""
+
+show_usage ()
+{
+  local BASE_NAME=`basename "${0}"`
+
+  cat << EOF
+Usage: ${BASE_NAME} [OPTIONS] -c CDROM_PATH -p PATCH_FILE
+
+Description:
+  Setup the data needed to play the game.
+
+  -c CDROM_PATH
+      Assign the cd-rom path.
+  
+  -p PATCH_FILE
+      Assign the patch file.
+      And the patch file should be 7z(from p7zip) extractable.
+
+  -d CDROM_DEVICE
+      Assign the cd-rom device.
+      Default is the first readable CDROM drive it finds.
+  -t TARGET
+      Assign the target. The data is installed into the target.
+      Default is ${DEFAULT_TARGET_NAME}.
+  -h
+      Show usage.
+
+Examples:
+  ${BASE_NAME} -c /media/cdrom -d /dev/sr1 -p pat12.exe
+      The game data is installed into ${DEFAULT_TARGET_NAME}.
+      The game cd-rom is /media/cdrom. 
+      The device of the game cd-rom is /dev/sr1.
+      The patch file is pat12.exe.
+  ${BASE_NAME} -t /foo/bar -c /media/cdrom -d /dev/sr1 -p pat12.exe
+      The game data is installed into /foo/bar.
+      The other options mean same as the above.
+EOF
+}
+
+# Get lowercase of basename of a file or directory.
+# The lowercase is filled in global variable 'lowercase'.
+#
+# Reference
+# http://tldp.org/LDP/abs/html/textproc.html 
+#
+# param $1  basename of a file or directory.
+#
+# return    0 on success, 1 on failure.
+get_lowercase_of ()
+{
+  local NAME=`echo "${1}/" | tr '[:upper:]' '[:lower:]'` || return 1
+  lowercase=${NAME%/}
+
+  return 0
+}
+
+# Copy the source directory to the destination directory recursively.
+# All of files and sub-directories in the source directoy are changed to
+# the lowercase. Also, permissons of the files are changed to 0444.
+#
+# param $1  source directory.
+# param $2  destination directory.
+#
+# return    0 on success, 1 on failure.
+copy_directory ()
+{
+  local SRC="${1}"
+  local DST="${2}"
+
+  install -v -d "${DST}" || return 1
+
+  find "${SRC}" -maxdepth 1 -type f \
+    | while read file; do
+        get_lowercase_of "`basename "${file}"`" || return 1            
+        install -v -m 0444 "${file}" "${DST}/${lowercase}" || return 1
+      done
+
+  find "${SRC}" -mindepth 1 -maxdepth 1 -type d \
+    | while read sub_dir; do
+        get_lowercase_of "`basename "${sub_dir}"`" || return 1
+        copy_directory "${sub_dir}" "${DST}/${lowercase}" || return 1
+      done
+
+  return 0
+}
+
+# First, files, what are needed to play the game, in the cd-rom are copied.
+# Second, the patch is applied.
+# Third, music tracks in the cd-rom are extracted.
+# Forth, the configuration file and so on are made.
+#
+# param $1  cd-rom path. (ex. /media/cdrom )
+# param $2  cd-rom device. (ex. /dev/sr1 )
+# param $3  patch file. (ex. gen2pat12.exe or /etc/gen2pat12.exe)
+# param $4  target directory.
+#
+# return    0 on success, otherwise on failure.
+setup ()
+{
+  local P7ZIP=`which 7z`
+  local CDPARANOIA=`which cdparanoia`
+  local OGGENC=`which oggenc`
+
+  if [ -z "${P7ZIP}" -o -z "${CDPARANOIA}" -o -z "${OGGENC}" ]; then
+      cat << EOF >&2
+Error: You don't have the tools needed to install the data. Please ensure that
+you have '7z'(from p7zip), 'cdparanoia' and 'oggenc'(from vorbis-tools)
+in your path.
+EOF
+
+      return 1
+  fi
+
+  local CD_DIR="${1}"
+  local CD_DEV="${2}"
+  local PATCH="${3}"
+  local TARGET="${4}"
+
+  # Reset target directory
+  rm -r -f "${TARGET}"
+  install -v -d "${TARGET}" || return 1
+
+  # Files, what are needed to play the game, in the cd-rom are copied.
+  copy_directory "${CD_DIR}/GENESIS2" "${TARGET}" || return 1
+  data_temp_dir=`mktemp -d` || return 1
+  "${P7ZIP}" x -o"${data_temp_dir}" -y "${CD_DIR}/DOSINST.ARJ" || return 1
+  copy_directory "${data_temp_dir}" "${TARGET}" || return 1
+  rm -r -f "${data_temp_dir}"
+
+  # The patch is applied.
+  patch_temp_dir=`mktemp -d` || return 1
+  "${P7ZIP}" x -o"${patch_temp_dir}" -y "${PATCH}" || return 1
+  copy_directory "${patch_temp_dir}" "${TARGET}" || return 1
+  rm -r -f "${patch_temp_dir}"
+
+  # Make config file.
+  local config_file="${HOME}/.${PROJECT_NAME}.conf"
+  cat << EOF > "${CONFIG_FILE}"
+root = \"${TARGET}\";
+fast = false;
+music = true;
+sound = true;
+EOF
+
+  # Music tracks in the cd-rom are extracted.
+  local TARGET_MUSIC="${TARGET}/music"
+  install -v -d "${TARGET_MUSIC}" || return 1
+  music_temp_dir=`mktemp -d` || return 1
+  local disc_track_num=2
+  while [ 20 -gt ${disc_track_num} ]; do
+    local music_num=`expr ${disc_track_num} - 1` || return 1
+    if [ 10 -gt ${music_num} ]; then
+        music_num="0${music_num}"
+    fi
+
+    local music_wav="${music_temp_dir}/track${music_num}.wav"
+    if [ -z "${CD_DEV}" ]; then
+      "${CDPARANOIA}" "${disc_track_num}" "${music_wav}" || return 1
+    else
+      "${CDPARANOIA}" -d "${CD_DEV}" "${disc_track_num}" "${music_wav}" || return 1
+    fi
+
+    local music_ogg="${TARGET_MUSIC}/track${music_num}.ogg"
+    "${OGGENC}" --resample 22000 -q 7 -o "${music_ogg}" "${music_wav}" || return 1
+
+    chmod 0444 "${music_ogg}" || return 1
+
+    disc_track_num=`expr ${disc_track_num} + 1` || return 1
+  done
+
+  rm -r -f "${music_temp_dir}"
+
+  return 0
+}
+
+if [ 0 -eq $# ]; then
+  show_usage
+
+  exit 1
+fi
+
+cd_dir=""
+cd_dev=""
+patch=""
+target=""
+
+while getopts "c:d:p:t:h" option; do
+  case "${option}" in
+    c)
+      cd_dir="${OPTARG}"
+      ;;
+    d)
+      cd_dev="${OPTARG}"
+      ;;
+    p)
+      patch="${OPTARG}"
+      ;;
+    t)
+      target="${OPTARG}"
+      ;;
+    h)
+      show_usage
+      exit 0
+      ;;
+    *)
+      show_usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "${cd_dir}" ]; then
+  echo "Error: The cd-rom is not specifined." >&2
+  echo ""
+  show_usage
+
+  exit 1
+fi
+
+if [ -z "${patch}" ]; then
+  echo "Error: The patch file is not specified." >&2
+  echo ""
+  show_usage
+
+  exit 1
+fi
+
+if [ ! -d "${cd_dir}" ]; then
+  echo "Error: The cd-rom '${cd_dir}' does not exist." >&2
+
+  exit 1
+fi
+
+if [ ! -d "${cd_dir}/GENESIS2" ]; then
+  cat << EOF >&2
+Error: It seems the cd-rom does not contain valid game data or is not inserted.
+EOF
+
+  exit 1
+fi
+
+if [ ! -f "${patch}" ]; then
+  echo "Error: The patch file '${patch}' does not exist" >&2
+
+  exit 1
+fi
+
+if [ -z "${target}" ]; then
+  target="${DEFAULT_TARGET}"
+fi
+
+setup "${cd_dir}" "${cd_dev}" "${patch}" "${target}"
+result=$?
+
+if [ 0 -eq ${result} ]; then
+  echo ""
+  echo "Setup is completed."
+fi
+
+exit $result
