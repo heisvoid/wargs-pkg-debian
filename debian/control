@@ -1,0 +1,24 @@
+Source: wargs
+Section: games
+Priority: optional
+Maintainer: heisvoid <heisvoid@gmail.com>
+Build-Depends: cdbs, debhelper (>= 8.0.0), autotools-dev
+Standards-Version: 3.9.2
+Vcs-Git: git://github.com/heisvoid/WarGS.git
+Homepage: https://github.com/heisvoid/WarGS
+
+Package: wargs
+Architecture: i386
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.4)
+Description: A port of the 1996 DOS game War of Genesis II 
+ WarGS is a port of the 1996 DOS game War of Genesis II by Softmax to
+ modern operating systems. In particular, it runs on GNU/Linux, but
+ it should also work on any system supported by the SDL library on the
+ i386 architecture.
+ .
+ As part of the port, only modernised executables which will run on
+ contemporary systems are provided. The game data is not provided.
+ To play the game, you will need to have the original data from the
+ War of Genesis II CD.
+ .
+ The port is not fully complete.

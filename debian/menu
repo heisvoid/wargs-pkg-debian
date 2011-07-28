@@ -1,0 +1,2 @@
+?package(wargs):needs="X11" section="Games/Adventure"\
+  title="wargs" command="/usr/games/wargs"
