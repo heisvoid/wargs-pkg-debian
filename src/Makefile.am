@@ -2,6 +2,7 @@ bin_PROGRAMS = wargs wargs-ttl wargs-combatii wargs-chp wargs-pack
 
 COMMON_SRCS = assert.h \
 					 	  conf.c conf.h \
+							exit.c exit.h \
 							filepath.c filepath.h \
 							log.c log.h \
 							util.c util.h
@@ -9,7 +10,6 @@ COMMON_SRCS = assert.h \
 GAME_SRCS = asm.h \
 						audio.c audio.h \
 						dos.c \
-						exit.c exit.h \
 						game.c game.h \
 						keyboard.c keyboard.h \
 						list.c list.h \
@@ -39,10 +39,6 @@ wargs_pack_SOURCES = $(COMMON_SRCS) \
  										 $(GAME_SRCS) \
 										 pack.S \
 										 wargs-pack.c
-
-wargs_chp_CFLAGS = -DCHP
-wargs_combatii_CFLAGS = -DCOMBATII
-wargs_pack_CFLAGS = -DPACK
 
 MKWRAPPERS = $(PYTHON) $(top_srcdir)/tool/mkwrappers
 

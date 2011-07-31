@@ -9952,7 +9952,7 @@ func_1975d:
 		push   $0x10
 		sar    $0x10,%edx
 		call   func_2b3dc
-		mov    video_buffer,%ecx
+		mov    EXTERN(video_buffer),%ecx
 	jump_1978f:
 		mov    data_8291c,%ebx
 		mov    data_54055,%edx
@@ -9973,7 +9973,7 @@ func_197af:
 		push   %ecx
 		push   %edx
 		mov    $data_541cf,%ebx
-		mov    video_buffer,%ecx
+		mov    EXTERN(video_buffer),%ecx
 		mov    data_54051,%edx
 		mov    data_5404f,%eax
 		sar    $0x10,%edx
@@ -10334,7 +10334,7 @@ func_19b67:
 		sar    $0x10,%edx
 		call   func_2b3dc
 #if 1
-    movl   video_buffer,%ecx
+    movl   EXTERN(video_buffer),%ecx
 #else
 		mov    $0xa0000,%ecx
 #endif
@@ -10371,11 +10371,11 @@ func_19bd6:
     call   w_game_update
 
     call   w_mouse_get_state
-    movw   mouse_state_button,%bx
+    movw   EXTERN(mouse_state_button),%bx
     mov    %ebx,0x20(%esp)
-    movw   mouse_state_x,%bx
+    movw   EXTERN(mouse_state_x),%bx
     mov    %ebx,0x24(%esp)
-    movw   mouse_state_y,%bx
+    movw   EXTERN(mouse_state_y),%bx
     mov    %ebx,0x28(%esp)
 #else
 		call   w_dos_int386
@@ -10589,7 +10589,7 @@ func_1a094:
 		mov    $data_19c6c,%esi
 		mov    %dx,0x20(%esp)
 #if 1
-    mov    video_buffer,%edx
+    mov    EXTERN(video_buffer),%edx
 #else
 		mov    $0xa0000,%edx
 #endif
@@ -10722,7 +10722,7 @@ func_1a094:
 		mov    %esp,%ebx
 		mov    0x1e(%esp),%eax
 #if 1
-    mov    video_buffer,%ecx
+    mov    EXTERN(video_buffer),%ecx
 #else
 		mov    $0xa0000,%ecx
 #endif
@@ -17570,22 +17570,22 @@ func_20019:
 		mov    $0x3c8,%edx
 		movswl %bx,%eax
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
 		mov    $0x3c9,%edx
 		xor    %al,%al
 #if 1
-    movb   %al,palette_r
-    movb   %al,palette_g
-    movb   %al,palette_b
+    movb   %al,EXTERN(palette_r)
+    movb   %al,EXTERN(palette_g)
+    movb   %al,EXTERN(palette_b)
 
     call   w_video_set_palette
 
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 		out    %al,(%dx)
@@ -17615,7 +17615,7 @@ func_20118:
 		mov    $0x3c8,%edx
 		xor    %ecx,%ecx
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -17632,25 +17632,25 @@ func_20118:
 		add    %eax,%ebx
 		mov    (%esi,%ebx,1),%al
 #if 1
-    movb   %al,palette_r
+    movb   %al,EXTERN(palette_r)
 #else
 		out    %al,(%dx)
 #endif
 		mov    0x1(%esi,%ebx,1),%al
 #if 1
-    movb   %al,palette_g
+    movb   %al,EXTERN(palette_g)
 #else
 		out    %al,(%dx)
 #endif
 		mov    0x2(%esi,%ebx,1),%al
 		inc    %ecx
 #if 1
-    movb   %al,palette_b
+    movb   %al,EXTERN(palette_b)
 
     call   w_video_set_palette
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -17679,7 +17679,7 @@ func_201cf:
 		mov    $0x3c7,%edx
 		xor    %ecx,%ecx
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -17689,11 +17689,11 @@ func_201cf:
 		sub    %eax,%eax
 #if 1
     call   w_video_get_palette
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 
-    movb   palette_r,%al
+    movb   EXTERN(palette_r),%al
 #else
 		in     (%dx),%al
 #endif
@@ -17711,14 +17711,14 @@ func_201cf:
 		inc    %ecx
 		sub    %eax,%eax
 #if 1
-    movb   palette_g,%al
+    movb   EXTERN(palette_g),%al
 #else
 		in     (%dx),%al
 #endif
 		mov    %al,0x1(%esi,%ebx,1)
 		sub    %eax,%eax
 #if 1
-    movb   palette_b,%al
+    movb   EXTERN(palette_b),%al
 #else
 		in     (%dx),%al
 #endif
@@ -18002,7 +18002,7 @@ func_nullsub_2:	/* 0x20f82 */
 	jump_20f83:
 #if 1
     push   %eax
-    movl   video_buffer,%eax
+    movl   EXTERN(video_buffer),%eax
     mov    %eax,data_15b9cc
     pop    %eax
 #else
@@ -18215,7 +18215,7 @@ func_213a6:
 		jmp    jump_213cb
 	jump_213f2:
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -18891,7 +18891,7 @@ func_213a6:
 		mov    %ax,data_15ba18
 	jump_21d00:
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -30201,7 +30201,7 @@ func_2b44f:
 		push   %ebx
 		push   %ecx
 #if 1
-    movl   video_buffer,%edi
+    movl   EXTERN(video_buffer),%edi
 #else
 		mov    $0xa0000,%edi
 #endif
@@ -30232,7 +30232,7 @@ func_2b470:
 		push   %ebx
 		push   %ecx
 #if 1
-    movl   video_buffer,%edi
+    movl   EXTERN(video_buffer),%edi
 #else
 		mov    $0xa0000,%edi
 #endif
@@ -33706,7 +33706,7 @@ func_2e46b:
 		mov    $0x3c8,%eax
 		mov    0x4(%esp),%dl
 #if 1
-    movb   %dl,palette_index
+    movb   %dl,EXTERN(palette_index)
 #else
 		call   func_outp_
 #endif
@@ -33715,7 +33715,7 @@ func_2e46b:
 		mov    $0x3c9,%eax
 		sar    $0x2,%edx
 #if 1
-    movb   %dl,palette_r
+    movb   %dl,EXTERN(palette_r)
 #else
 		call   func_outp_
 #endif
@@ -33725,7 +33725,7 @@ func_2e46b:
 		sar    $0x2,%edx
 		mov    0x4(%esp),%ebx
 #if 1
-    movb   %dl,palette_g
+    movb   %dl,EXTERN(palette_g)
 #else
 		call   func_outp_
 #endif
@@ -33736,12 +33736,12 @@ func_2e46b:
 		sar    $0x2,%edx
 		mov    %bx,0x4(%esp)
 #if 1
-    movb   %dl,palette_b
+    movb   %dl,EXTERN(palette_b)
 
     call   w_video_set_palette
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		call   func_outp_
 #endif
@@ -38261,7 +38261,7 @@ func_32315:
 		mov    %esi,data_1a4f14
 		call   func_201cf
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -39305,7 +39305,7 @@ func_329f7:
 		call   func_230ae
 		call   func_3197d
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -40935,7 +40935,7 @@ func_34b92:
 		xor    %edx,%edx
 		call   func_201cf
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -41189,7 +41189,7 @@ func_34b92:
 		call   func_3197d
 		mov    $0x1,%ah
 #if 1
-    pushl  video_buffer
+    pushl  EXTERN(video_buffer)
 #else
 		push   $0xa0000
 #endif
@@ -43214,7 +43214,7 @@ func_368d6:
 		call   func_2b44f
 		mov    data_99232(,%ebp,4),%ebp
 #if 1
-    movl   video_buffer,%ecx
+    movl   EXTERN(video_buffer),%ecx
 #else
 		mov    $0xa0000,%ecx
 #endif
@@ -43246,7 +43246,7 @@ func_368d6:
 		mov    data_7cf28,%eax
 		sub    $0x8,%eax
 #if 1
-    movl   video_buffer,%ecx
+    movl   EXTERN(video_buffer),%ecx
 #else
 		mov    $0xa0000,%ecx
 #endif
@@ -46772,7 +46772,7 @@ func_39e5e:
     push   %ecx
     dec    %ecx
     push   %ecx
-    call   audio_music_play
+    call   w_audio_music_play
     add    $4,%esp
     pop    %ecx
 #else
@@ -59408,6 +59408,12 @@ func___init_80x87:	/* 0x41a8e */
 		xchg   %ax,(%esp)
 		pop    %ax
 		ret
+
+
+GLOBAL (pit_isr_0)
+    ret
+
+
 .data
 data_50000:
 		.ascii  "\x01\x01\x01\x00"

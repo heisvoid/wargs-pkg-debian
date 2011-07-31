@@ -1,13 +1,14 @@
 Introduction:
 
-WarGS is a port of the 1996 DOS game War of Genesis II by Softmax to modern
-operating systems. In particular, it runs on GNU/Linux, but it should also
-work on any system supported by the SDL library on the i386 architecture.
+WarGS is a port of the 1996 DOS game War of Genesis II (ver. 1.2) 
+by Softmax to modern operating systems. In particular, it runs on
+GNU/Linux i386 and WIN32, but it should also work on any system
+supported by the SDL library on the i386 architecture.
 
 As part of the port, only modernised executables which will
 run on contemporary systems are provided. The game data is not provided.
 To play the game, you will need to have the original data
-from the War of Genesis II CD.
+from the War of Genesis II CD and 1.2 patch file.
 
 The port is not fully complete.
 
@@ -31,6 +32,126 @@ they have the rights to will be taken down.
 
 Installation:
 
-./configure
-make
-make install
+GNU/Linux
+To install WarGS on GNU/Linux, you need the followings.
+- GCC
+- Python (>= 2.4)
+- SDL
+- SDL_mixer
+- libconfig
+- cdparanoia
+- vorbis-tools
+- p7zip-full
+
+Once you've made sure you have the above, proceed with the following steps.
+1. Download and unpack the source tarball.
+2. Go into the newly created directory.
+3. Run ./configure && make && make install
+4. Add installed directory to PATH environment variable.
+5. Insert the War of Genesis II CD and make sure it is mounted.
+   (e.g. in /media/cdrom)
+6. Run wargs-setup -c CDROM -p PATCH, where
+   - CDROM is the game CD path, like /media/cdrom
+   - PATCH is the patch file released by Softmax, like pat12.exe
+
+If you need more information about wargs-setup, run wargs-setup --help
+
+WIN32
+To install WarGS on WIN32, you need the followings.
+- MinGW with MSYS
+- Python (>= 2.4)
+- ARJ unpacker
+- ZIP unpacker
+- CD audio ripping tool
+
+Once you've made sure you have the above, proceed with the following steps.
+1. Download and unpack the source tarball.
+2. Go into the src directory in the newly created directory on MSYS
+3. Edit Makefile.windows to match your system setup.
+4. Run make -f Makefile.windows
+5. Copy wargs.exe, wargs-ttl.exe, wargs-combatii.exe, wargs-chp.exe
+   and wargs-pack.exe to the location of your desire, says WarGSLocation.
+6. Copy lib\SDL-1.2.14\lib\*.dll, lib\SDL_mixer-1.2.11\lib\*.dll and
+   lib\libconfig-1.4.7\lib\*.dll to WarGSLocation.
+7. Add the WarGSLocation to PATH environment variable.
+8. Copy tool\wargs-run to the WarGSLocation.
+9. Copy GENESIS2\* in the game CD to the location of your desire,
+   says WarGSDataLocation.
+10. Unpack DOSINST.ARJ in the game CD to the WarGSDataLocation.
+11. Unpack the patch file to the WarGSDataLocation.
+12. Rip the game CD audio tracks to trackNN.ogg (track01, track02, ...).
+13. Creat a WarGSDataLocation\music directory and copy the previously encoded
+    ogg vorbis files there.
+14. Make configuration file,
+    %HOMEDRIVE%\%HOMEPATH%\Local Settings\Application Data\WarGS\wargs.conf
+
+
+Configuration:
+
+GNU/Linux: ~/.WarGS/wargs.conf
+WIN32: %HOMEDRIVE%\%HOMEPATH%\Local Settings\Application Data\WarGS\wargs.conf
+
+It is libconfig accessible file. And it has INI similar format.
+The following options are supported.
+- root
+  Set the game data directory.
+  NOTICE: This is required option.
+  This has double quoted string value.
+  (e.g. "/home/foo/.WarGS")
+  (e.g. "c:\\documents and settings\\foo\\Application Data\\WarGS")
+- fast
+  Set the game speed fast.
+  This has true/false boolean value.
+  If this option is omitted, default is false.
+- music
+  Set the game music on. 
+  This has true/false boolean value.
+  If this option is omitted, default is false.
+- sound
+  Set the game sound on.
+  This has true/false boolean value.
+  If this option is omitted, default is false.
+- ratio
+  Set the window size ratio.
+  Window width will be 320 * ratio. And window height will be 200 * ratio.
+  This has natural number.
+  If this option is omitted, default is 1.
+- center
+  Set the window position center always.
+  This has true/false boolean value.
+  If this option is omitted, default is false.
+- verbose
+  Set log messages printed or not.
+  This has true/false boolean value.
+  If this option is omitted, default is false.
+- ttl
+  Set the ttl program. If this option is omitted, the ttl is searched in PATH.
+  This has double quoted string value. (e.g. "/usr/games/wargs-ttl")
+- combatii
+  Set the combatii program. If this option is omitted, the combatii is
+  searched in PATH.
+  This has double quoted string value. (e.g. "/usr/games/wargs-combatii")
+- chp
+  Set the chp program. If this option is omitted, the chp is searched in PATH.
+  This has double quoted string value. (e.g. "/usr/games/wargs-chp")
+- pack
+  Set the pack program. If this option is omitted. the pack is searched in PATH.
+  This has double quoted string value. (e.g. "/usr/games/wargs-pack")
+
+Example on GNU/Linux
+root = "/home/foo/.WarGS";
+fast = false;
+music = true;
+sound = true;
+ratio = 2;
+center = true;
+verbose = false;
+
+Example on WIN32
+root = "c:\\documents and settings\\foo\\application data\\WarGS";
+fast = false;
+music = true;
+sound = true;
+ratio = 2;
+center = true;
+verbose = false;

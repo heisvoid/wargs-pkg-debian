@@ -1,3 +1,14 @@
+2011-07-31  heisvoid  <heisvoid@gmail.com>
+  * Release ver. 0.3
+  * Remove prdefined variables CHP, COMBATII and PACK
+  * Add WIN32 (MinGW MSYS) supports
+    - Add headers and libraries for WIN32 build and running
+    - Implement WIN32 configuration file selection routine
+    - Make forwarding functions for WIN32 findfirst/findnext ()
+  * Make platform independent basename ()
+  * Change configuration file path in setup script
+  * Revise SDL palette setting routine
+
 2011-07-27  heisvoid  <heisvoid@gmail.com>
 
   * Release ver. 0.2

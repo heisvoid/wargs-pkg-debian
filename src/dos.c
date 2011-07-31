@@ -11,7 +11,11 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
+#ifndef _WIN32
 #include <glob.h>
+#else /* _WIN32 */
+#include <windows.h>
+#endif /* _WIN32 */
 
 #include "assert.h"
 #include "filepath.h"
@@ -134,8 +138,7 @@ dos_fopen (const char *path, const char *mode)
 
   FILE * const file = fopen (native_path, mode);
 
-  char * const tmp = strdup (native_path);
-  const char * const bn = basename (tmp);
+  const char * const bn = xbasename (native_path);
   if (0 == strcmp ("talk.tbl", bn))
     {
       talk_file = file;
@@ -364,7 +367,11 @@ dos_creat (const char *path, int mode)
 
   const char * const native_path = filepath_transform (path);
 
+#ifndef _WIN32
   const int fd = creat (native_path, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+#else
+  const int fd = _creat (native_path, _S_IREAD | _S_IWRITE);
+#endif 
   ASSERT (-1 != fd);
 
   free ((void *) native_path);
@@ -385,9 +392,6 @@ dos_write (int fd, const void *buf, unsigned int len)
                                      len - total_written);
       if (0 > written)
         {
-          const int e = errno;
-          ASSERT (EFAULT == e);
-
           break;
         }
 
@@ -501,6 +505,7 @@ dos_fputc (int c, FILE *f)
   return ret;
 }
 
+#ifndef _WIN32
 static glob_t *glob_buf = NULL;
 static size_t glob_index = 0;
 
@@ -542,28 +547,53 @@ fill_dta (const char *file_path, int8_t *dta)
   
   const struct tm * const t = localtime (&fs.st_mtime);
 
-  *(int16_t *)(dta + 0x16) = 0;
-  *(int16_t *)(dta + 0x16) |= ((t->tm_hour << 11)
-                               | (t->tm_min << 5)
-                               | (t->tm_sec / 2));
+  *((int16_t *) (dta + 0x16)) = 0;
+  *((int16_t *) (dta + 0x16)) |= ((t->tm_hour << 11)
+                                  | (t->tm_min << 5)
+                                  | (t->tm_sec / 2));
 
-  *(int16_t *)(dta + 0x18) = 0;
-  *(int16_t *)(dta + 0x18) |= (((80 + t->tm_year) << 9)
-                               | ((1 + t->tm_mon) << 5)
-                               | t->tm_mday);
+  *((int16_t *) (dta + 0x18)) = 0;
+  *((int16_t *) (dta + 0x18)) |= (((1900 + t->tm_year) << 9)
+                                  | ((1 + t->tm_mon) << 5)
+                                  | t->tm_mday);
 
-  *(int32_t *)(dta + 0x1a) = fs.st_size;
+  *((int32_t *) (dta + 0x1a)) = fs.st_size;
 
-  char * const tmp = strdup (file_path);
-  ASSERT (NULL != tmp);
-
-  const char * const bn = basename (tmp);
+  const char * const bn = xbasename (file_path);
   ASSERT (13 > strlen (bn));
 
   strcpy ((char *) (dta + 0x1e), bn);
-
-  free (tmp);
 }
+#else /* _WIN32 */
+static HANDLE find_handle = INVALID_HANDLE_VALUE;
+
+static
+void fill_dta (const WIN32_FIND_DATA *find_data, int8_t *dta)
+{
+  ASSERT (NULL != find_data);
+  ASSERT (NULL != dta);
+
+  *(dta + 0x15) = 0;
+  if (FILE_ATTRIBUTE_READONLY & find_data->dwFileAttributes)
+    {
+      *(dta + 0x15) |= 0x01;
+    }
+  if (FILE_ATTRIBUTE_DIRECTORY & find_data->dwFileAttributes)
+    {
+      *(dta + 0x15) |= 0x10;
+    }
+
+  const BOOL ret = FileTimeToDosDateTime (&find_data->ftLastWriteTime,
+                                          (LPWORD) (dta + 0x18),
+                                          (LPWORD) (dta + 0x16));
+  ASSERT (FALSE != ret);
+
+  *((int16_t *) (dta + 0x1a)) = find_data->nFileSizeHigh * (MAXDWORD + 1)
+                             + find_data->nFileSizeLow;
+
+  strcpy ((char *) (dta + 0x1e), find_data->cAlternateFileName);
+}
+#endif /* _WIN32 */
 
 int
 dos_findfirst (const char *file_spec, int attr_mask, int8_t *dta)
@@ -572,6 +602,8 @@ dos_findfirst (const char *file_spec, int attr_mask, int8_t *dta)
   ASSERT (NULL != dta);
 
   const char *native_file_spec = NULL;
+
+#ifndef _WIN32
   if (0 == strcmp ("*.*", file_spec))
     {
       native_file_spec = filepath_transform ("*");
@@ -603,6 +635,24 @@ dos_findfirst (const char *file_spec, int attr_mask, int8_t *dta)
   ASSERT (0 <  glob_buf->gl_pathc);
 
   fill_dta (glob_buf->gl_pathv[0], dta);
+#else /* _WIN32 */
+  if (INVALID_HANDLE_VALUE != find_handle)
+    {
+      const BOOL ret = FindClose (find_handle);
+      ASSERT (TRUE == ret);
+    }
+
+  native_file_spec = filepath_transform (file_spec);
+
+  WIN32_FIND_DATA find_data;
+  find_handle = FindFirstFile (native_file_spec, &find_data);
+  if (INVALID_HANDLE_VALUE == find_handle)
+    {
+      return 2;
+    }
+
+  fill_dta (&find_data, dta);
+#endif /* _WIN32 */
 
   free ((void *) native_file_spec);
 
@@ -614,9 +664,10 @@ dos_findnext (int8_t *dta)
 {
   ASSERT (NULL != dta);
 
+#ifndef _WIN32
   if (NULL == glob_buf)
     {
-      LOG_FATAL ("firdfirst should be called");
+      LOG_FATAL ("findfirst should be called");
     }
 
   if (glob_buf->gl_pathc <= glob_index)
@@ -627,6 +678,18 @@ dos_findnext (int8_t *dta)
   fill_dta (glob_buf->gl_pathv[glob_index], dta);
 
   glob_index++;
+#else /* _WIN32 */
+  if (INVALID_HANDLE_VALUE == find_handle)
+    {
+      LOG_FATAL ("findfirst should be called");
+    }
+
+  WIN32_FIND_DATA find_data;
+  const BOOL ret = FindNextFile (find_handle, &find_data);
+  ASSERT (FALSE != ret);
+
+  fill_dta (&find_data, dta); 
+#endif /* _WIN32 */
 
   return 0;
 }

@@ -33,8 +33,6 @@ AC_SUBST([MKWRAPPERS_FLAGS])
 
 AC_DEFINE([FILEPATH_SEPARATOR], ['/'], [File path separator.])
 
-AM_PROG_CC_C_O
-
 AC_CONFIG_FILES([Makefile
                  src/Makefile])
 AC_OUTPUT

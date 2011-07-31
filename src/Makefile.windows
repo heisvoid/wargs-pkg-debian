@@ -1,0 +1,61 @@
+PYTHON = python
+
+AS = as
+ASFLAGS = 
+
+CPP = cpp
+CPPFLAGS = -C
+
+CC = gcc
+CFLAGS = -Wall -Werror -g -O2 -include config.windows.h \
+				 -I../lib/SDL-1.2.14/include/SDL -I../lib/SDL_mixer-1.2.11/include \
+				 -I../lib/libconfig-1.4.7/include
+LIBS_CONFIG = ../lib/libconfig-1.4.7/lib/libconfig.dll.a
+LIBS = $(LIBS_CONFIG) ../lib/SDL-1.2.14/lib/libSDL.dll.a \
+			 ../lib/SDL_mixer-1.2.11/lib/SDL_mixer.lib
+
+MKWRAPPERS = $(PYTHON) ../tool/mkwrappers
+MKWRAPPERS_FLAGS = -g -u
+
+WARGS = wargs.exe
+TTL = wargs-ttl.exe
+CHP = wargs-chp.exe
+COMBATII = wargs-combatii.exe
+PACK = wargs-pack.exe
+
+OBJ_COMMON = conf.o exit.o filepath.o log.o util.o
+OBJ_GAME = audio.o dos.o game.o keyboard.o list.o mouse.o video.o wrappers.o
+OBJ_WARGS = $(OBJ_COMMON) wargs.o
+OBJ_TTL = $(OBJ_COMMON) $(OBJ_GAME) ttl.o wargs-ttl.o
+OBJ_CHP = $(OBJ_COMMON) $(OBJ_GAME) chp.o wargs-chp.o
+OBJ_COMBATII = $(OBJ_COMMON) $(OBJ_GAME) combatii.o wargs-combatii.o
+OBJ_PACK = $(OBJ_COMMON) $(OBJ_GAME) pack.o wargs-pack.o
+
+all: $(WARGS) $(TTL) $(CHP) $(COMBATII) $(PACK)
+
+$(WARGS): $(OBJ_WARGS)
+	$(CC) $(OBJ_WARGS) $(LIBS_CONFIG) -o $@
+
+$(TTL): $(OBJ_TTL)
+	$(CC) $(OBJ_TTL) $(LIBS) -o $@
+
+$(CHP): $(OBJ_CHP)
+	$(CC) $(OBJ_CHP) $(LIBS) -o $@
+
+$(COMBATII): $(OBJ_COMBATII)
+	$(CC) $(OBJ_COMBATII) $(LIBS) -o $@
+
+$(PACK): $(OBJ_PACK)
+	$(CC) $(OBJ_PACK) $(LIBS) -o $@
+
+.c.o:
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+.S.o:
+	$(CPP) $(CPPFLAGS) $< | $(AS) $(ASFLAGS) -o $@
+
+wrappers.S: ../tool/mkwrappers.conf
+	$(MKWRAPPERS) $(MKWRAPPERS_FLAGS) -o $@ $<
+
+clean:
+	rm -f $(WARGS) $(TTL) $(CHP) $(COMBATII) $(PACK) *.o wrappers.S

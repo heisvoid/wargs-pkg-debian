@@ -13,6 +13,7 @@
 
 #include "assert.h"
 #include "util.h"
+#include "filepath.h"
 
 static const char * const option_root = "root";
 static const char * const option_fast = "fast";
@@ -40,18 +41,30 @@ conf_init ()
       return;
     }
 
+  conf_file_path = xmalloc (PATH_MAX);
+
 #ifdef __unix__
   const char *home = getenv ("HOME");
   ASSERT (NULL != home);
 
-  const size_t conf_file_path_size = sizeof (char)
-      * (strlen (home) + 1 + 1 + strlen (PACKAGE) + 5 + 1);
-  conf_file_path = xmalloc (conf_file_path_size);
-  xsnprintf (conf_file_path, conf_file_path_size, "%s%c.%s.conf",
-             home, FILEPATH_SEPARATOR, PACKAGE);
-#else /* not __unix__ */
+  xsnprintf (conf_file_path, PATH_MAX, "%s%c.%s%c%s.conf",
+             home, FILEPATH_SEPARATOR, PACKAGE_NAME, FILEPATH_SEPARATOR,
+             PACKAGE);
+#elif defined _WIN32
+  const char * const home_drive = getenv ("HOMEDRIVE");
+  ASSERT (NULL != home_drive);
+
+  const char * const home_path = getenv ("HOMEPATH");
+  ASSERT (NULL != home_path);
+
+  xsnprintf (conf_file_path, PATH_MAX, "%s%c%s%c%s%c%s%c%s%c%s.conf",
+             home_drive, FILEPATH_SEPARATOR, home_path, FILEPATH_SEPARATOR,
+             "Local Settings", FILEPATH_SEPARATOR,
+             "Application Data", FILEPATH_SEPARATOR,
+             PACKAGE_NAME, FILEPATH_SEPARATOR, PACKAGE);
+#else /* not __unix__ and not_WIN32 */
 #error "unsupported platform"
-#endif /* not __unix__ */
+#endif /* not __unix__ and not _WIN32 */
 
   config_init (&conf);
 
@@ -143,7 +156,7 @@ conf_get_root ()
   const char * root = get_char (option_root);
   if (NULL == root)
     {
-      LOG_FATAL ("cannot get option %", option_root);
+      LOG_FATAL ("cannot get option: %s", option_root);
     }
 
   return root;
@@ -190,7 +203,11 @@ conf_get_ratio ()
 {
   ASSERT (true == initialized);
 
+#if LIBCONFIG_VER_MINOR < 4
   long int val = 0;
+#else /* LIBCONFIG_VER_MINOR >= 4 */
+  int val = 0;
+#endif /* LIBCONFIG_VER_MINOR >= 4 */
   if (CONFIG_TRUE != config_lookup_int (&conf, option_ratio, &val))
     {
       return 1;

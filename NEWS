@@ -1,3 +1,10 @@
+0.3:
+  - Remove predefined variables CHP, COMBATII and PACK
+  - Add WIN32 (MinGW MSYS) supports
+  - Make platform independent basename ()
+  - Change configuraion file path
+  - Revise SDL palette setting routine 
+
 0.2:
   - Change music file prefix from 'music' to 'track'
   - Change music encoding quality in setup script
