@@ -5,7 +5,7 @@
 # http://tldp.org/LDP/abs/html/textproc.html
 # swars port 0.3 util/install script (http://swars.vexillium.org/)
 
-PROJECT_NAME="wargs"
+PROJECT_NAME="WarGS"
 DEFAULT_TARGET_NAME="\$HOME/.${PROJECT_NAME}"
 DEFAULT_TARGET="${HOME}/.${PROJECT_NAME}"
 
@@ -146,7 +146,8 @@ EOF
   rm -r -f "${patch_temp_dir}"
 
   # Make config file.
-  local config_file="${HOME}/.${PROJECT_NAME}.conf"
+  get_lowercase_of "${PROJECT_NAME}" || return 1
+  local config_file="${HOME}/.${PROJECT_NAME}/${lowercase}.conf"
   cat << EOF > "${CONFIG_FILE}"
 root = \"${TARGET}\";
 fast = false;
@@ -167,9 +168,9 @@ EOF
 
     local music_wav="${music_temp_dir}/track${music_num}.wav"
     if [ -z "${CD_DEV}" ]; then
-      "${CDPARANOIA}" "${disc_track_num}" "${music_wav}" || return 1
+      "${CDPARANOIA}" -v "${disc_track_num}" "${music_wav}" || return 1
     else
-      "${CDPARANOIA}" -d "${CD_DEV}" "${disc_track_num}" "${music_wav}" || return 1
+      "${CDPARANOIA}" -v -d "${CD_DEV}" "${disc_track_num}" "${music_wav}" || return 1
     fi
 
     local music_ogg="${TARGET_MUSIC}/track${music_num}.ogg"

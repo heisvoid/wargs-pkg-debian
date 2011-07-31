@@ -43,17 +43,9 @@ log_set_verbose (bool v)
           return;                                             \
         }                                                     \
                                                               \
-      char *f = strdup (file);                                \
-      if (NULL == f)                                          \
-        {                                                     \
-          return;                                             \
-        }                                                     \
-                                                              \
-      const char * const file_name = basename (f);            \
+      const char * const file_name = xbasename (file);        \
       if (NULL == file_name)                                  \
         {                                                     \
-          free (f);                                           \
-                                                              \
           return;                                             \
         }                                                     \
                                                               \
@@ -63,8 +55,6 @@ log_set_verbose (bool v)
         }                                                     \
                                                               \
       fprintf (stderr, "%s: %d: ", file_name, line);          \
-                                                              \
-      free (f);                                               \
                                                               \
       va_list ap;                                             \
       va_start (ap, format);                                  \

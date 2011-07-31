@@ -127,9 +127,7 @@ keyboard_handle_event (const SDL_KeyboardEvent *event)
       scan_code += 0x80;
     }
 
-#if defined CHP || defined COMBATII || defined PACK
   asm volatile ("call keyboard_isr" : : "a" (scan_code));
-#endif
 }
 
 int

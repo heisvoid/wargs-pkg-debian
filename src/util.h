@@ -8,5 +8,6 @@
 extern void xsnprintf (char *str, size_t size, const char *format, ...);
 extern void *xmalloc (size_t size);
 extern void *xcalloc (size_t nmemb, size_t size);
+extern const char *xbasename (const char *path);
 
 #endif

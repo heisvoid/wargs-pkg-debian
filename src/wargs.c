@@ -9,13 +9,16 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <sys/wait.h>
+#endif /* _WIN32 */
 #include <string.h>
 
 #include "conf.h"
 #include "filepath.h"
 #include "assert.h"
 #include "util.h"
+#include "exit.h"
 
 static const char * const default_ttl = PACKAGE"-ttl";
 static const char * const default_chp = PACKAGE"-chp";
@@ -32,6 +35,7 @@ enum spawn_type
 
 static int child_exit_status = 0;
 
+#ifndef _WIN32
 #define SPAWN(type, ...)                                                \
     {                                                                   \
       const char *exe_ = NULL;                                          \
@@ -81,7 +85,7 @@ static int child_exit_status = 0;
       const pid_t pid_ = wait (&status_);                               \
       ASSERT (pid_ == child_pid_);                                      \
                                                                         \
-      if (!WIFEXITED (status_))                                         \
+      if (!WIFEXITED (status_) || false == exit_exists ())              \
         {                                                               \
           LOG_FATAL ("failed to run: %s",                               \
                      (NULL != exe_path_) ? exe_path_ : exe_);           \
@@ -89,6 +93,53 @@ static int child_exit_status = 0;
                                                                         \
       child_exit_status = WEXITSTATUS (status_);                        \
     }
+#else /* _WIN32 */
+#define SPAWN(type, ...)                                                      \
+    {                                                                         \
+      const char *exe_ = NULL;                                                \
+      const char *exe_path_ = NULL;                                           \
+      switch (type)                                                           \
+        {                                                                     \
+        case SPAWN_TTL:                                                       \
+          exe_ = default_ttl;                                                 \
+          exe_path_ = conf_get_ttl ();                                        \
+          break;                                                              \
+        case SPAWN_CHP:                                                       \
+          exe_ = default_chp;                                                 \
+          exe_path_ = conf_get_chp ();                                        \
+          break;                                                              \
+        case SPAWN_COMBATII:                                                  \
+          exe_ = default_combatii;                                            \
+          exe_path_ = conf_get_combatii ();                                   \
+          break;                                                              \
+        case SPAWN_PACK:                                                      \
+          exe_ = default_pack;                                                \
+          exe_path_ = conf_get_pack ();                                       \
+          break;                                                              \
+        default:                                                              \
+          LOG_FATAL ("unexpected spawn error");                               \
+        }                                                                     \
+                                                                              \
+      int ret_ = 0;                                                           \
+                                                                              \
+      if (NULL != exe_path_)                                                  \
+        {                                                                     \
+          ret_ = _spawnl (_P_WAIT, exe_path_, exe_path_, ##__VA_ARGS__, NULL);\
+        }                                                                     \
+      else                                                                    \
+        {                                                                     \
+          ret_ = _spawnlp (_P_WAIT, exe_, exe_, ##__VA_ARGS__, NULL);         \
+        }                                                                     \
+                                                                              \
+      if (-1 == ret_ || false == exit_exists ())                              \
+        {                                                                     \
+          LOG_FATAL ("failed to run: %s",                                     \
+                     (NULL != exe_path_) ? exe_path_ : exe_);                 \
+        }                                                                     \
+                                                                              \
+      child_exit_status = ret_;                                               \
+    }
+#endif /* _WIN32 */
 
 static bool
 does_file_exist (const char *path)

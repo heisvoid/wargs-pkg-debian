@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "filepath.h"
 #include "assert.h"
@@ -26,9 +29,32 @@ exit_write (int status)
 }
 
 void
-exit_clean ()
+exit_clear ()
 {
   const char * const native_path = filepath_transform ("exit");
   unlink (native_path);
   free ((void *) native_path);
+}
+
+bool
+exit_exists ()
+{
+  const char * const native_path = filepath_transform ("exit");
+
+  struct stat fs;
+  const int ret = stat (native_path, &fs);
+
+  free ((void *) native_path);
+
+  if (0 != ret)
+    {
+      return false;
+    }
+
+  if (!S_ISREG(fs.st_mode))
+    {
+      return false;
+    }
+
+  return true;
 }

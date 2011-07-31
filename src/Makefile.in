@@ -47,57 +47,27 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = conf.$(OBJEXT) filepath.$(OBJEXT) log.$(OBJEXT) \
-	util.$(OBJEXT)
+am__objects_1 = conf.$(OBJEXT) exit.$(OBJEXT) filepath.$(OBJEXT) \
+	log.$(OBJEXT) util.$(OBJEXT)
 am_wargs_OBJECTS = $(am__objects_1) wargs.$(OBJEXT)
 wargs_OBJECTS = $(am_wargs_OBJECTS)
 wargs_LDADD = $(LDADD)
-am__objects_2 = wargs_chp-conf.$(OBJEXT) wargs_chp-filepath.$(OBJEXT) \
-	wargs_chp-log.$(OBJEXT) wargs_chp-util.$(OBJEXT)
-am__objects_3 = wargs_chp-audio.$(OBJEXT) wargs_chp-dos.$(OBJEXT) \
-	wargs_chp-exit.$(OBJEXT) wargs_chp-game.$(OBJEXT) \
-	wargs_chp-keyboard.$(OBJEXT) wargs_chp-list.$(OBJEXT) \
-	wargs_chp-mouse.$(OBJEXT) wargs_chp-video.$(OBJEXT) \
-	wrappers.$(OBJEXT)
-am_wargs_chp_OBJECTS = $(am__objects_2) $(am__objects_3) chp.$(OBJEXT) \
-	wargs_chp-wargs-chp.$(OBJEXT)
+am__objects_2 = audio.$(OBJEXT) dos.$(OBJEXT) game.$(OBJEXT) \
+	keyboard.$(OBJEXT) list.$(OBJEXT) mouse.$(OBJEXT) \
+	video.$(OBJEXT) wrappers.$(OBJEXT)
+am_wargs_chp_OBJECTS = $(am__objects_1) $(am__objects_2) chp.$(OBJEXT) \
+	wargs-chp.$(OBJEXT)
 wargs_chp_OBJECTS = $(am_wargs_chp_OBJECTS)
 wargs_chp_LDADD = $(LDADD)
-wargs_chp_LINK = $(CCLD) $(wargs_chp_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
-am__objects_4 = wargs_combatii-conf.$(OBJEXT) \
-	wargs_combatii-filepath.$(OBJEXT) wargs_combatii-log.$(OBJEXT) \
-	wargs_combatii-util.$(OBJEXT)
-am__objects_5 = wargs_combatii-audio.$(OBJEXT) \
-	wargs_combatii-dos.$(OBJEXT) wargs_combatii-exit.$(OBJEXT) \
-	wargs_combatii-game.$(OBJEXT) \
-	wargs_combatii-keyboard.$(OBJEXT) \
-	wargs_combatii-list.$(OBJEXT) wargs_combatii-mouse.$(OBJEXT) \
-	wargs_combatii-video.$(OBJEXT) wrappers.$(OBJEXT)
-am_wargs_combatii_OBJECTS = $(am__objects_4) $(am__objects_5) \
-	combatii.$(OBJEXT) wargs_combatii-wargs-combatii.$(OBJEXT)
+am_wargs_combatii_OBJECTS = $(am__objects_1) $(am__objects_2) \
+	combatii.$(OBJEXT) wargs-combatii.$(OBJEXT)
 wargs_combatii_OBJECTS = $(am_wargs_combatii_OBJECTS)
 wargs_combatii_LDADD = $(LDADD)
-wargs_combatii_LINK = $(CCLD) $(wargs_combatii_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_6 = wargs_pack-conf.$(OBJEXT) \
-	wargs_pack-filepath.$(OBJEXT) wargs_pack-log.$(OBJEXT) \
-	wargs_pack-util.$(OBJEXT)
-am__objects_7 = wargs_pack-audio.$(OBJEXT) wargs_pack-dos.$(OBJEXT) \
-	wargs_pack-exit.$(OBJEXT) wargs_pack-game.$(OBJEXT) \
-	wargs_pack-keyboard.$(OBJEXT) wargs_pack-list.$(OBJEXT) \
-	wargs_pack-mouse.$(OBJEXT) wargs_pack-video.$(OBJEXT) \
-	wrappers.$(OBJEXT)
-am_wargs_pack_OBJECTS = $(am__objects_6) $(am__objects_7) \
-	pack.$(OBJEXT) wargs_pack-wargs-pack.$(OBJEXT)
+am_wargs_pack_OBJECTS = $(am__objects_1) $(am__objects_2) \
+	pack.$(OBJEXT) wargs-pack.$(OBJEXT)
 wargs_pack_OBJECTS = $(am_wargs_pack_OBJECTS)
 wargs_pack_LDADD = $(LDADD)
-wargs_pack_LINK = $(CCLD) $(wargs_pack_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
-am__objects_8 = audio.$(OBJEXT) dos.$(OBJEXT) exit.$(OBJEXT) \
-	game.$(OBJEXT) keyboard.$(OBJEXT) list.$(OBJEXT) \
-	mouse.$(OBJEXT) video.$(OBJEXT) wrappers.$(OBJEXT)
-am_wargs_ttl_OBJECTS = $(am__objects_1) $(am__objects_8) ttl.$(OBJEXT) \
+am_wargs_ttl_OBJECTS = $(am__objects_1) $(am__objects_2) ttl.$(OBJEXT) \
 	wargs-ttl.$(OBJEXT)
 wargs_ttl_OBJECTS = $(am_wargs_ttl_OBJECTS)
 wargs_ttl_LDADD = $(LDADD)
@@ -228,6 +198,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 COMMON_SRCS = assert.h \
 					 	  conf.c conf.h \
+							exit.c exit.h \
 							filepath.c filepath.h \
 							log.c log.h \
 							util.c util.h
@@ -235,7 +206,6 @@ COMMON_SRCS = assert.h \
 GAME_SRCS = asm.h \
 						audio.c audio.h \
 						dos.c \
-						exit.c exit.h \
 						game.c game.h \
 						keyboard.c keyboard.h \
 						list.c list.h \
@@ -266,9 +236,6 @@ wargs_pack_SOURCES = $(COMMON_SRCS) \
 										 pack.S \
 										 wargs-pack.c
 
-wargs_chp_CFLAGS = -DCHP
-wargs_combatii_CFLAGS = -DCOMBATII
-wargs_pack_CFLAGS = -DPACK
 MKWRAPPERS = $(PYTHON) $(top_srcdir)/tool/mkwrappers
 CLEANFILES = wrappers.S
 all: config.h
@@ -381,13 +348,13 @@ wargs$(EXEEXT): $(wargs_OBJECTS) $(wargs_DEPENDENCIES)
 	$(LINK) $(wargs_OBJECTS) $(wargs_LDADD) $(LIBS)
 wargs-chp$(EXEEXT): $(wargs_chp_OBJECTS) $(wargs_chp_DEPENDENCIES) 
 	@rm -f wargs-chp$(EXEEXT)
-	$(wargs_chp_LINK) $(wargs_chp_OBJECTS) $(wargs_chp_LDADD) $(LIBS)
+	$(LINK) $(wargs_chp_OBJECTS) $(wargs_chp_LDADD) $(LIBS)
 wargs-combatii$(EXEEXT): $(wargs_combatii_OBJECTS) $(wargs_combatii_DEPENDENCIES) 
 	@rm -f wargs-combatii$(EXEEXT)
-	$(wargs_combatii_LINK) $(wargs_combatii_OBJECTS) $(wargs_combatii_LDADD) $(LIBS)
+	$(LINK) $(wargs_combatii_OBJECTS) $(wargs_combatii_LDADD) $(LIBS)
 wargs-pack$(EXEEXT): $(wargs_pack_OBJECTS) $(wargs_pack_DEPENDENCIES) 
 	@rm -f wargs-pack$(EXEEXT)
-	$(wargs_pack_LINK) $(wargs_pack_OBJECTS) $(wargs_pack_LDADD) $(LIBS)
+	$(LINK) $(wargs_pack_OBJECTS) $(wargs_pack_LDADD) $(LIBS)
 wargs-ttl$(EXEEXT): $(wargs_ttl_OBJECTS) $(wargs_ttl_DEPENDENCIES) 
 	@rm -f wargs-ttl$(EXEEXT)
 	$(LINK) $(wargs_ttl_OBJECTS) $(wargs_ttl_LDADD) $(LIBS)
@@ -414,47 +381,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ttl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs-chp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs-combatii.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs-pack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs-ttl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-audio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-conf.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-dos.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-exit.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-filepath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-game.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-keyboard.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-list.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-log.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-mouse.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-video.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_chp-wargs-chp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-audio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-conf.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-dos.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-exit.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-filepath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-game.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-keyboard.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-list.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-log.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-mouse.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-video.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_combatii-wargs-combatii.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-audio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-conf.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-dos.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-exit.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-filepath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-game.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-keyboard.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-list.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-log.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-mouse.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-video.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wargs_pack-wargs-pack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wrappers.Po@am__quote@
 
 .S.o:
@@ -484,552 +415,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-wargs_chp-conf.o: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-conf.o -MD -MP -MF $(DEPDIR)/wargs_chp-conf.Tpo -c -o wargs_chp-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-conf.Tpo $(DEPDIR)/wargs_chp-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_chp-conf.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-
-wargs_chp-conf.obj: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-conf.obj -MD -MP -MF $(DEPDIR)/wargs_chp-conf.Tpo -c -o wargs_chp-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-conf.Tpo $(DEPDIR)/wargs_chp-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_chp-conf.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-
-wargs_chp-filepath.o: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-filepath.o -MD -MP -MF $(DEPDIR)/wargs_chp-filepath.Tpo -c -o wargs_chp-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-filepath.Tpo $(DEPDIR)/wargs_chp-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_chp-filepath.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-
-wargs_chp-filepath.obj: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-filepath.obj -MD -MP -MF $(DEPDIR)/wargs_chp-filepath.Tpo -c -o wargs_chp-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-filepath.Tpo $(DEPDIR)/wargs_chp-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_chp-filepath.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-
-wargs_chp-log.o: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-log.o -MD -MP -MF $(DEPDIR)/wargs_chp-log.Tpo -c -o wargs_chp-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-log.Tpo $(DEPDIR)/wargs_chp-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_chp-log.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-
-wargs_chp-log.obj: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-log.obj -MD -MP -MF $(DEPDIR)/wargs_chp-log.Tpo -c -o wargs_chp-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-log.Tpo $(DEPDIR)/wargs_chp-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_chp-log.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-
-wargs_chp-util.o: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-util.o -MD -MP -MF $(DEPDIR)/wargs_chp-util.Tpo -c -o wargs_chp-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-util.Tpo $(DEPDIR)/wargs_chp-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_chp-util.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-
-wargs_chp-util.obj: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-util.obj -MD -MP -MF $(DEPDIR)/wargs_chp-util.Tpo -c -o wargs_chp-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-util.Tpo $(DEPDIR)/wargs_chp-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_chp-util.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-
-wargs_chp-audio.o: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-audio.o -MD -MP -MF $(DEPDIR)/wargs_chp-audio.Tpo -c -o wargs_chp-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-audio.Tpo $(DEPDIR)/wargs_chp-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_chp-audio.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-
-wargs_chp-audio.obj: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-audio.obj -MD -MP -MF $(DEPDIR)/wargs_chp-audio.Tpo -c -o wargs_chp-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-audio.Tpo $(DEPDIR)/wargs_chp-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_chp-audio.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-
-wargs_chp-dos.o: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-dos.o -MD -MP -MF $(DEPDIR)/wargs_chp-dos.Tpo -c -o wargs_chp-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-dos.Tpo $(DEPDIR)/wargs_chp-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_chp-dos.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-
-wargs_chp-dos.obj: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-dos.obj -MD -MP -MF $(DEPDIR)/wargs_chp-dos.Tpo -c -o wargs_chp-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-dos.Tpo $(DEPDIR)/wargs_chp-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_chp-dos.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-
-wargs_chp-exit.o: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-exit.o -MD -MP -MF $(DEPDIR)/wargs_chp-exit.Tpo -c -o wargs_chp-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-exit.Tpo $(DEPDIR)/wargs_chp-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_chp-exit.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-
-wargs_chp-exit.obj: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-exit.obj -MD -MP -MF $(DEPDIR)/wargs_chp-exit.Tpo -c -o wargs_chp-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-exit.Tpo $(DEPDIR)/wargs_chp-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_chp-exit.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-
-wargs_chp-game.o: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-game.o -MD -MP -MF $(DEPDIR)/wargs_chp-game.Tpo -c -o wargs_chp-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-game.Tpo $(DEPDIR)/wargs_chp-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_chp-game.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-
-wargs_chp-game.obj: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-game.obj -MD -MP -MF $(DEPDIR)/wargs_chp-game.Tpo -c -o wargs_chp-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-game.Tpo $(DEPDIR)/wargs_chp-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_chp-game.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-
-wargs_chp-keyboard.o: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-keyboard.o -MD -MP -MF $(DEPDIR)/wargs_chp-keyboard.Tpo -c -o wargs_chp-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-keyboard.Tpo $(DEPDIR)/wargs_chp-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_chp-keyboard.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-
-wargs_chp-keyboard.obj: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-keyboard.obj -MD -MP -MF $(DEPDIR)/wargs_chp-keyboard.Tpo -c -o wargs_chp-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-keyboard.Tpo $(DEPDIR)/wargs_chp-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_chp-keyboard.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-
-wargs_chp-list.o: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-list.o -MD -MP -MF $(DEPDIR)/wargs_chp-list.Tpo -c -o wargs_chp-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-list.Tpo $(DEPDIR)/wargs_chp-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_chp-list.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-
-wargs_chp-list.obj: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-list.obj -MD -MP -MF $(DEPDIR)/wargs_chp-list.Tpo -c -o wargs_chp-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-list.Tpo $(DEPDIR)/wargs_chp-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_chp-list.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-
-wargs_chp-mouse.o: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-mouse.o -MD -MP -MF $(DEPDIR)/wargs_chp-mouse.Tpo -c -o wargs_chp-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-mouse.Tpo $(DEPDIR)/wargs_chp-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_chp-mouse.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-
-wargs_chp-mouse.obj: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-mouse.obj -MD -MP -MF $(DEPDIR)/wargs_chp-mouse.Tpo -c -o wargs_chp-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-mouse.Tpo $(DEPDIR)/wargs_chp-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_chp-mouse.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-
-wargs_chp-video.o: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-video.o -MD -MP -MF $(DEPDIR)/wargs_chp-video.Tpo -c -o wargs_chp-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-video.Tpo $(DEPDIR)/wargs_chp-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_chp-video.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-
-wargs_chp-video.obj: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-video.obj -MD -MP -MF $(DEPDIR)/wargs_chp-video.Tpo -c -o wargs_chp-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-video.Tpo $(DEPDIR)/wargs_chp-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_chp-video.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-
-wargs_chp-wargs-chp.o: wargs-chp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-wargs-chp.o -MD -MP -MF $(DEPDIR)/wargs_chp-wargs-chp.Tpo -c -o wargs_chp-wargs-chp.o `test -f 'wargs-chp.c' || echo '$(srcdir)/'`wargs-chp.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-wargs-chp.Tpo $(DEPDIR)/wargs_chp-wargs-chp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-chp.c' object='wargs_chp-wargs-chp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-wargs-chp.o `test -f 'wargs-chp.c' || echo '$(srcdir)/'`wargs-chp.c
-
-wargs_chp-wargs-chp.obj: wargs-chp.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -MT wargs_chp-wargs-chp.obj -MD -MP -MF $(DEPDIR)/wargs_chp-wargs-chp.Tpo -c -o wargs_chp-wargs-chp.obj `if test -f 'wargs-chp.c'; then $(CYGPATH_W) 'wargs-chp.c'; else $(CYGPATH_W) '$(srcdir)/wargs-chp.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_chp-wargs-chp.Tpo $(DEPDIR)/wargs_chp-wargs-chp.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-chp.c' object='wargs_chp-wargs-chp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_chp_CFLAGS) $(CFLAGS) -c -o wargs_chp-wargs-chp.obj `if test -f 'wargs-chp.c'; then $(CYGPATH_W) 'wargs-chp.c'; else $(CYGPATH_W) '$(srcdir)/wargs-chp.c'; fi`
-
-wargs_combatii-conf.o: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-conf.o -MD -MP -MF $(DEPDIR)/wargs_combatii-conf.Tpo -c -o wargs_combatii-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-conf.Tpo $(DEPDIR)/wargs_combatii-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_combatii-conf.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-
-wargs_combatii-conf.obj: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-conf.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-conf.Tpo -c -o wargs_combatii-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-conf.Tpo $(DEPDIR)/wargs_combatii-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_combatii-conf.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-
-wargs_combatii-filepath.o: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-filepath.o -MD -MP -MF $(DEPDIR)/wargs_combatii-filepath.Tpo -c -o wargs_combatii-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-filepath.Tpo $(DEPDIR)/wargs_combatii-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_combatii-filepath.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-
-wargs_combatii-filepath.obj: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-filepath.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-filepath.Tpo -c -o wargs_combatii-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-filepath.Tpo $(DEPDIR)/wargs_combatii-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_combatii-filepath.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-
-wargs_combatii-log.o: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-log.o -MD -MP -MF $(DEPDIR)/wargs_combatii-log.Tpo -c -o wargs_combatii-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-log.Tpo $(DEPDIR)/wargs_combatii-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_combatii-log.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-
-wargs_combatii-log.obj: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-log.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-log.Tpo -c -o wargs_combatii-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-log.Tpo $(DEPDIR)/wargs_combatii-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_combatii-log.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-
-wargs_combatii-util.o: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-util.o -MD -MP -MF $(DEPDIR)/wargs_combatii-util.Tpo -c -o wargs_combatii-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-util.Tpo $(DEPDIR)/wargs_combatii-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_combatii-util.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-
-wargs_combatii-util.obj: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-util.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-util.Tpo -c -o wargs_combatii-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-util.Tpo $(DEPDIR)/wargs_combatii-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_combatii-util.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-
-wargs_combatii-audio.o: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-audio.o -MD -MP -MF $(DEPDIR)/wargs_combatii-audio.Tpo -c -o wargs_combatii-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-audio.Tpo $(DEPDIR)/wargs_combatii-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_combatii-audio.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-
-wargs_combatii-audio.obj: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-audio.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-audio.Tpo -c -o wargs_combatii-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-audio.Tpo $(DEPDIR)/wargs_combatii-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_combatii-audio.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-
-wargs_combatii-dos.o: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-dos.o -MD -MP -MF $(DEPDIR)/wargs_combatii-dos.Tpo -c -o wargs_combatii-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-dos.Tpo $(DEPDIR)/wargs_combatii-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_combatii-dos.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-
-wargs_combatii-dos.obj: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-dos.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-dos.Tpo -c -o wargs_combatii-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-dos.Tpo $(DEPDIR)/wargs_combatii-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_combatii-dos.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-
-wargs_combatii-exit.o: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-exit.o -MD -MP -MF $(DEPDIR)/wargs_combatii-exit.Tpo -c -o wargs_combatii-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-exit.Tpo $(DEPDIR)/wargs_combatii-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_combatii-exit.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-
-wargs_combatii-exit.obj: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-exit.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-exit.Tpo -c -o wargs_combatii-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-exit.Tpo $(DEPDIR)/wargs_combatii-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_combatii-exit.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-
-wargs_combatii-game.o: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-game.o -MD -MP -MF $(DEPDIR)/wargs_combatii-game.Tpo -c -o wargs_combatii-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-game.Tpo $(DEPDIR)/wargs_combatii-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_combatii-game.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-
-wargs_combatii-game.obj: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-game.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-game.Tpo -c -o wargs_combatii-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-game.Tpo $(DEPDIR)/wargs_combatii-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_combatii-game.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-
-wargs_combatii-keyboard.o: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-keyboard.o -MD -MP -MF $(DEPDIR)/wargs_combatii-keyboard.Tpo -c -o wargs_combatii-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-keyboard.Tpo $(DEPDIR)/wargs_combatii-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_combatii-keyboard.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-
-wargs_combatii-keyboard.obj: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-keyboard.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-keyboard.Tpo -c -o wargs_combatii-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-keyboard.Tpo $(DEPDIR)/wargs_combatii-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_combatii-keyboard.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-
-wargs_combatii-list.o: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-list.o -MD -MP -MF $(DEPDIR)/wargs_combatii-list.Tpo -c -o wargs_combatii-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-list.Tpo $(DEPDIR)/wargs_combatii-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_combatii-list.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-
-wargs_combatii-list.obj: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-list.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-list.Tpo -c -o wargs_combatii-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-list.Tpo $(DEPDIR)/wargs_combatii-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_combatii-list.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-
-wargs_combatii-mouse.o: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-mouse.o -MD -MP -MF $(DEPDIR)/wargs_combatii-mouse.Tpo -c -o wargs_combatii-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-mouse.Tpo $(DEPDIR)/wargs_combatii-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_combatii-mouse.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-
-wargs_combatii-mouse.obj: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-mouse.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-mouse.Tpo -c -o wargs_combatii-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-mouse.Tpo $(DEPDIR)/wargs_combatii-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_combatii-mouse.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-
-wargs_combatii-video.o: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-video.o -MD -MP -MF $(DEPDIR)/wargs_combatii-video.Tpo -c -o wargs_combatii-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-video.Tpo $(DEPDIR)/wargs_combatii-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_combatii-video.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-
-wargs_combatii-video.obj: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-video.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-video.Tpo -c -o wargs_combatii-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-video.Tpo $(DEPDIR)/wargs_combatii-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_combatii-video.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-
-wargs_combatii-wargs-combatii.o: wargs-combatii.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-wargs-combatii.o -MD -MP -MF $(DEPDIR)/wargs_combatii-wargs-combatii.Tpo -c -o wargs_combatii-wargs-combatii.o `test -f 'wargs-combatii.c' || echo '$(srcdir)/'`wargs-combatii.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-wargs-combatii.Tpo $(DEPDIR)/wargs_combatii-wargs-combatii.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-combatii.c' object='wargs_combatii-wargs-combatii.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-wargs-combatii.o `test -f 'wargs-combatii.c' || echo '$(srcdir)/'`wargs-combatii.c
-
-wargs_combatii-wargs-combatii.obj: wargs-combatii.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -MT wargs_combatii-wargs-combatii.obj -MD -MP -MF $(DEPDIR)/wargs_combatii-wargs-combatii.Tpo -c -o wargs_combatii-wargs-combatii.obj `if test -f 'wargs-combatii.c'; then $(CYGPATH_W) 'wargs-combatii.c'; else $(CYGPATH_W) '$(srcdir)/wargs-combatii.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_combatii-wargs-combatii.Tpo $(DEPDIR)/wargs_combatii-wargs-combatii.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-combatii.c' object='wargs_combatii-wargs-combatii.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_combatii_CFLAGS) $(CFLAGS) -c -o wargs_combatii-wargs-combatii.obj `if test -f 'wargs-combatii.c'; then $(CYGPATH_W) 'wargs-combatii.c'; else $(CYGPATH_W) '$(srcdir)/wargs-combatii.c'; fi`
-
-wargs_pack-conf.o: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-conf.o -MD -MP -MF $(DEPDIR)/wargs_pack-conf.Tpo -c -o wargs_pack-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-conf.Tpo $(DEPDIR)/wargs_pack-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_pack-conf.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-
-wargs_pack-conf.obj: conf.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-conf.obj -MD -MP -MF $(DEPDIR)/wargs_pack-conf.Tpo -c -o wargs_pack-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-conf.Tpo $(DEPDIR)/wargs_pack-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='wargs_pack-conf.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-
-wargs_pack-filepath.o: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-filepath.o -MD -MP -MF $(DEPDIR)/wargs_pack-filepath.Tpo -c -o wargs_pack-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-filepath.Tpo $(DEPDIR)/wargs_pack-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_pack-filepath.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-filepath.o `test -f 'filepath.c' || echo '$(srcdir)/'`filepath.c
-
-wargs_pack-filepath.obj: filepath.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-filepath.obj -MD -MP -MF $(DEPDIR)/wargs_pack-filepath.Tpo -c -o wargs_pack-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-filepath.Tpo $(DEPDIR)/wargs_pack-filepath.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='filepath.c' object='wargs_pack-filepath.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-filepath.obj `if test -f 'filepath.c'; then $(CYGPATH_W) 'filepath.c'; else $(CYGPATH_W) '$(srcdir)/filepath.c'; fi`
-
-wargs_pack-log.o: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-log.o -MD -MP -MF $(DEPDIR)/wargs_pack-log.Tpo -c -o wargs_pack-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-log.Tpo $(DEPDIR)/wargs_pack-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_pack-log.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-
-wargs_pack-log.obj: log.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-log.obj -MD -MP -MF $(DEPDIR)/wargs_pack-log.Tpo -c -o wargs_pack-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-log.Tpo $(DEPDIR)/wargs_pack-log.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='wargs_pack-log.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-
-wargs_pack-util.o: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-util.o -MD -MP -MF $(DEPDIR)/wargs_pack-util.Tpo -c -o wargs_pack-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-util.Tpo $(DEPDIR)/wargs_pack-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_pack-util.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-util.o `test -f 'util.c' || echo '$(srcdir)/'`util.c
-
-wargs_pack-util.obj: util.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-util.obj -MD -MP -MF $(DEPDIR)/wargs_pack-util.Tpo -c -o wargs_pack-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-util.Tpo $(DEPDIR)/wargs_pack-util.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='util.c' object='wargs_pack-util.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-util.obj `if test -f 'util.c'; then $(CYGPATH_W) 'util.c'; else $(CYGPATH_W) '$(srcdir)/util.c'; fi`
-
-wargs_pack-audio.o: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-audio.o -MD -MP -MF $(DEPDIR)/wargs_pack-audio.Tpo -c -o wargs_pack-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-audio.Tpo $(DEPDIR)/wargs_pack-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_pack-audio.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-audio.o `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
-
-wargs_pack-audio.obj: audio.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-audio.obj -MD -MP -MF $(DEPDIR)/wargs_pack-audio.Tpo -c -o wargs_pack-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-audio.Tpo $(DEPDIR)/wargs_pack-audio.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='audio.c' object='wargs_pack-audio.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-audio.obj `if test -f 'audio.c'; then $(CYGPATH_W) 'audio.c'; else $(CYGPATH_W) '$(srcdir)/audio.c'; fi`
-
-wargs_pack-dos.o: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-dos.o -MD -MP -MF $(DEPDIR)/wargs_pack-dos.Tpo -c -o wargs_pack-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-dos.Tpo $(DEPDIR)/wargs_pack-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_pack-dos.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-dos.o `test -f 'dos.c' || echo '$(srcdir)/'`dos.c
-
-wargs_pack-dos.obj: dos.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-dos.obj -MD -MP -MF $(DEPDIR)/wargs_pack-dos.Tpo -c -o wargs_pack-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-dos.Tpo $(DEPDIR)/wargs_pack-dos.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dos.c' object='wargs_pack-dos.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-dos.obj `if test -f 'dos.c'; then $(CYGPATH_W) 'dos.c'; else $(CYGPATH_W) '$(srcdir)/dos.c'; fi`
-
-wargs_pack-exit.o: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-exit.o -MD -MP -MF $(DEPDIR)/wargs_pack-exit.Tpo -c -o wargs_pack-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-exit.Tpo $(DEPDIR)/wargs_pack-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_pack-exit.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-exit.o `test -f 'exit.c' || echo '$(srcdir)/'`exit.c
-
-wargs_pack-exit.obj: exit.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-exit.obj -MD -MP -MF $(DEPDIR)/wargs_pack-exit.Tpo -c -o wargs_pack-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-exit.Tpo $(DEPDIR)/wargs_pack-exit.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='exit.c' object='wargs_pack-exit.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-exit.obj `if test -f 'exit.c'; then $(CYGPATH_W) 'exit.c'; else $(CYGPATH_W) '$(srcdir)/exit.c'; fi`
-
-wargs_pack-game.o: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-game.o -MD -MP -MF $(DEPDIR)/wargs_pack-game.Tpo -c -o wargs_pack-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-game.Tpo $(DEPDIR)/wargs_pack-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_pack-game.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-game.o `test -f 'game.c' || echo '$(srcdir)/'`game.c
-
-wargs_pack-game.obj: game.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-game.obj -MD -MP -MF $(DEPDIR)/wargs_pack-game.Tpo -c -o wargs_pack-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-game.Tpo $(DEPDIR)/wargs_pack-game.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='game.c' object='wargs_pack-game.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-game.obj `if test -f 'game.c'; then $(CYGPATH_W) 'game.c'; else $(CYGPATH_W) '$(srcdir)/game.c'; fi`
-
-wargs_pack-keyboard.o: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-keyboard.o -MD -MP -MF $(DEPDIR)/wargs_pack-keyboard.Tpo -c -o wargs_pack-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-keyboard.Tpo $(DEPDIR)/wargs_pack-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_pack-keyboard.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-keyboard.o `test -f 'keyboard.c' || echo '$(srcdir)/'`keyboard.c
-
-wargs_pack-keyboard.obj: keyboard.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-keyboard.obj -MD -MP -MF $(DEPDIR)/wargs_pack-keyboard.Tpo -c -o wargs_pack-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-keyboard.Tpo $(DEPDIR)/wargs_pack-keyboard.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='keyboard.c' object='wargs_pack-keyboard.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-keyboard.obj `if test -f 'keyboard.c'; then $(CYGPATH_W) 'keyboard.c'; else $(CYGPATH_W) '$(srcdir)/keyboard.c'; fi`
-
-wargs_pack-list.o: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-list.o -MD -MP -MF $(DEPDIR)/wargs_pack-list.Tpo -c -o wargs_pack-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-list.Tpo $(DEPDIR)/wargs_pack-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_pack-list.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-list.o `test -f 'list.c' || echo '$(srcdir)/'`list.c
-
-wargs_pack-list.obj: list.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-list.obj -MD -MP -MF $(DEPDIR)/wargs_pack-list.Tpo -c -o wargs_pack-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-list.Tpo $(DEPDIR)/wargs_pack-list.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='list.c' object='wargs_pack-list.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-list.obj `if test -f 'list.c'; then $(CYGPATH_W) 'list.c'; else $(CYGPATH_W) '$(srcdir)/list.c'; fi`
-
-wargs_pack-mouse.o: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-mouse.o -MD -MP -MF $(DEPDIR)/wargs_pack-mouse.Tpo -c -o wargs_pack-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-mouse.Tpo $(DEPDIR)/wargs_pack-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_pack-mouse.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-mouse.o `test -f 'mouse.c' || echo '$(srcdir)/'`mouse.c
-
-wargs_pack-mouse.obj: mouse.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-mouse.obj -MD -MP -MF $(DEPDIR)/wargs_pack-mouse.Tpo -c -o wargs_pack-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-mouse.Tpo $(DEPDIR)/wargs_pack-mouse.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mouse.c' object='wargs_pack-mouse.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-mouse.obj `if test -f 'mouse.c'; then $(CYGPATH_W) 'mouse.c'; else $(CYGPATH_W) '$(srcdir)/mouse.c'; fi`
-
-wargs_pack-video.o: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-video.o -MD -MP -MF $(DEPDIR)/wargs_pack-video.Tpo -c -o wargs_pack-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-video.Tpo $(DEPDIR)/wargs_pack-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_pack-video.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-video.o `test -f 'video.c' || echo '$(srcdir)/'`video.c
-
-wargs_pack-video.obj: video.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-video.obj -MD -MP -MF $(DEPDIR)/wargs_pack-video.Tpo -c -o wargs_pack-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-video.Tpo $(DEPDIR)/wargs_pack-video.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='video.c' object='wargs_pack-video.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-video.obj `if test -f 'video.c'; then $(CYGPATH_W) 'video.c'; else $(CYGPATH_W) '$(srcdir)/video.c'; fi`
-
-wargs_pack-wargs-pack.o: wargs-pack.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-wargs-pack.o -MD -MP -MF $(DEPDIR)/wargs_pack-wargs-pack.Tpo -c -o wargs_pack-wargs-pack.o `test -f 'wargs-pack.c' || echo '$(srcdir)/'`wargs-pack.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-wargs-pack.Tpo $(DEPDIR)/wargs_pack-wargs-pack.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-pack.c' object='wargs_pack-wargs-pack.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-wargs-pack.o `test -f 'wargs-pack.c' || echo '$(srcdir)/'`wargs-pack.c
-
-wargs_pack-wargs-pack.obj: wargs-pack.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -MT wargs_pack-wargs-pack.obj -MD -MP -MF $(DEPDIR)/wargs_pack-wargs-pack.Tpo -c -o wargs_pack-wargs-pack.obj `if test -f 'wargs-pack.c'; then $(CYGPATH_W) 'wargs-pack.c'; else $(CYGPATH_W) '$(srcdir)/wargs-pack.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/wargs_pack-wargs-pack.Tpo $(DEPDIR)/wargs_pack-wargs-pack.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='wargs-pack.c' object='wargs_pack-wargs-pack.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wargs_pack_CFLAGS) $(CFLAGS) -c -o wargs_pack-wargs-pack.obj `if test -f 'wargs-pack.c'; then $(CYGPATH_W) 'wargs-pack.c'; else $(CYGPATH_W) '$(srcdir)/wargs-pack.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

@@ -36,7 +36,7 @@ Options:
 def filepath_transform(file):
   data_root = None
 
-  f = open(os.path.expanduser("~/.wargs.conf"))
+  f = open(os.path.expanduser("~/.WarGS/wargs.conf"))
   for line in f:
     line = line.strip()
     equal = line.find("=")
@@ -78,7 +78,7 @@ def remove_dollar():
 def run_command(*command):
   com = None
 
-  f = open(os.path.expanduser("~/.wargs.conf"))
+  f = open(os.path.expanduser("~/.WarGS/wargs.conf"))
   for line in f:
     line = line.strip()
     equal = line.find("=")
@@ -229,7 +229,7 @@ def main(argv=None):
       if dollar.endswith(".sce") or dollar.endswith(".SCE"):
         run_command("combatii", dollar)
 
-        if None == read_exit_status() or 10 == read_exit_status:
+        if None == read_exit_status() or 10 == read_exit_status():
           end = True
           break
 

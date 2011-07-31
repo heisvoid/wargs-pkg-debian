@@ -102827,11 +102827,11 @@ mouse_get_state: /* 5cce3 */
 		mov    $data_123810,%edx
 #if 1
     call   w_mouse_get_state
-    mov    mouse_state_button,%ax
+    mov    EXTERN(mouse_state_button),%ax
     mov    %ax,data_123834
-    mov    mouse_state_x,%ax
+    mov    EXTERN(mouse_state_x),%ax
     mov    %ax,data_123838
-    mov    mouse_state_y,%ax
+    mov    EXTERN(mouse_state_y),%ax
     mov    %ax,data_12383c
 #else
 		call   w_dos_int386
@@ -104267,7 +104267,7 @@ func_5e9e8:
 		push   %edi
 		mov    data_755cc,%esi
 		add    $0xbb80,%esi
-		mov    video_buffer,%edi
+		mov    EXTERN(video_buffer),%edi
 		mov    $0x1e0,%eax
 		sub    $0x140,%eax
 		mov    $0xc8,%bx
@@ -105797,7 +105797,7 @@ func_5f839:
 		push   %edx
 		mov    $0x140,%ebx
 		xor    %edx,%edx
-		mov    video_buffer,%ecx
+		mov    EXTERN(video_buffer),%ecx
 		mov    %edx,data_755d6
 		mov    %ebx,data_755da
 		mov    %ecx,data_755d0
@@ -105891,7 +105891,7 @@ func_5f945:
 		mov    $0x3c7,%edx
 		mov    %cl,%al
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -105904,11 +105904,11 @@ func_5f945:
 #if 1
     call   w_video_get_palette
 
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 
-    movb   palette_r,%al
+    movb   EXTERN(palette_r),%al
 #else
 		in     (%dx),%al
 #endif
@@ -105916,14 +105916,14 @@ func_5f945:
 		mov    %al,(%esi,%ebx,1)
 		sub    %eax,%eax
 #if 1
-    movb   palette_g,%al
+    movb   EXTERN(palette_g),%al
 #else
 		in     (%dx),%al
 #endif
 		mov    %al,0x1(%esi,%ebx,1)
 		sub    %eax,%eax
 #if 1
-    movb   palette_b,%al
+    movb   EXTERN(palette_b),%al
 #else
 		in     (%dx),%al
 #endif
@@ -105970,7 +105970,7 @@ func_5f9ae:
 		mov    $0x3c8,%edx
 		mov    %cl,%al
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -105981,26 +105981,26 @@ func_5f9ae:
 		lea    (%ebx,%ebx,2),%ebx
 		mov    (%esi,%ebx,1),%al
 #if 1
-    movb   %al,palette_r
+    movb   %al,EXTERN(palette_r)
 #else
 		out    %al,(%dx)
 #endif
 		mov    0x1(%esi,%ebx,1),%al
 #if 1
-    movb   %al,palette_g
+    movb   %al,EXTERN(palette_g)
 #else
 		out    %al,(%dx)
 #endif
 		mov    0x2(%esi,%ebx,1),%al
 		inc    %ecx
 #if 1
-    movb   %al,palette_b
+    movb   %al,EXTERN(palette_b)
 
     call   w_video_set_palette
 
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -106066,7 +106066,7 @@ func_5fa2c:
 		mov    0x4(%esp),%ecx
 		mov    $0x64,%ebp
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -106086,7 +106086,7 @@ func_5fa2c:
 		idiv   %ebp
 		mov    $0x3c9,%edx
 #if 1
-    movb   %al,palette_r
+    movb   %al,EXTERN(palette_r)
 #else
 		out    %al,(%dx)
 #endif
@@ -106098,7 +106098,7 @@ func_5fa2c:
 		idiv   %ebp
 		mov    $0x3c9,%edx
 #if 1
-    movb   %al,palette_g
+    movb   %al,EXTERN(palette_g)
 #else
 		out    %al,(%dx)
 #endif
@@ -106111,13 +106111,13 @@ func_5fa2c:
 		mov    $0x3c9,%edx
 		inc    %ecx
 #if 1
-    movb   %al,palette_b
+    movb   %al,EXTERN(palette_b)
 
     call   w_video_set_palette
 
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -106185,7 +106185,7 @@ func_5fd1c:
 		mov    0xc(%esp),%al
 		mov    $0x3c8,%edx
 #if 1
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
 #else
 		out    %al,(%dx)
 #endif
@@ -106215,7 +106215,7 @@ func_5fd1c:
 		mov    $0x3c9,%edx
 		add    %ebp,%eax
 #if 1
-    movb   %al,palette_r
+    movb   %al,EXTERN(palette_r)
 #else
 		out    %al,(%dx)
 #endif
@@ -106229,7 +106229,7 @@ func_5fd1c:
 		mov    $0x3c9,%edx
 		add    %ebp,%eax
 #if 1
-    movb   %al,palette_g
+    movb   %al,EXTERN(palette_g)
 #else
 		out    %al,(%dx)
 #endif
@@ -106245,14 +106245,14 @@ func_5fd1c:
 		add    %ebx,%eax
 		inc    %esi
 #if 1
-    movb   %al,palette_b
+    movb   %al,EXTERN(palette_b)
 
     call   w_video_set_palette
 
     push   %eax
-    movb   palette_index,%al
+    movb   EXTERN(palette_index),%al
     inc    %al
-    movb   %al,palette_index
+    movb   %al,EXTERN(palette_index)
     pop    %eax
 #else
 		out    %al,(%dx)

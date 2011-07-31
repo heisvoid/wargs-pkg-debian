@@ -3,7 +3,10 @@
 #ifndef EXIT_H
 #define EXIT_H
 
+#include <stdbool.h>
+
 extern void exit_write (int status);
-extern void exit_clean ();
+extern void exit_clear ();
+extern bool exit_exists ();
 
 #endif

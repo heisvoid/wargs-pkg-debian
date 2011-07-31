@@ -123,9 +123,7 @@ update_pit_isr ()
 
   if (pit_isr_0_is_installed)
     {
-#ifdef COMBATII
       asm volatile ("call pit_isr_0");
-#endif
     }
 }
 
@@ -213,7 +211,7 @@ game_init (const char *name)
       game_set_fps_low ();
     }
 
-  exit_clean ();
+  exit_clear ();
 
   initialized = true;
 }
@@ -261,27 +259,23 @@ game_uninstall_pit_isr ()
 void
 game_install_pit_isr_0 ()
 {
-#ifdef COMBATII
   if (false == initialized)
     {
       LOG_FATAL ("not initialized");
     }
 
   pit_isr_0_is_installed = true;
-#endif
 }
 
 void
 game_uninstall_pit_isr_0 ()
 {
-#ifdef COMBATII
   if (false == initialized)
     {
       LOG_FATAL ("not initialized");
     }
 
   pit_isr_0_is_installed = false;
-#endif
 }
 
 void
